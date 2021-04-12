@@ -2,22 +2,31 @@ import pandas as pd
 
 import numpy as np
 
-dfmay = pd.read_excel('files/May_Report.xlsx'
-)
+import filecmp as filecmp
 
-dfjune = pd.read_excel('files/June_Report.xlsx'
-)
+unwanted_columns = ['Rep','Units']
+wanted_columns = [i for i in range(10) if i not in unwanted_columns ]
 
-#print(dfmay.equals(dfjune))
+#dffeb = pd.read_excel('files/Feb_Report.xlsx',usecols=lambda x: unwanted_columns not in x)
 
-comparevalues = dfmay.values == dfjune.values
+dffeb = pd.read_excel('files/Feb_Report.xlsx',usecols=lambda x: x not in unwanted_columns)
+
+#dfmar = pd.read_excel('files/Mar_Report.xlsx', usecols=lambda x: unwanted_columns not in x)
+dfmar = pd.read_excel('files/Mar_Report.xlsx', usecols=lambda x: x not in unwanted_columns)
+#print(dffeb.equals(dfmar))
+print(dffeb)
+
+comparevalues = dffeb.values == dfmar.values
 
 print(comparevalues)
+
+compareOutput = filecmp.cmp('files/Feb_Report.xlsx', 'files/Mar_Report.xlsx', shallow=False)
+print( compareOutput)
 
 rows,cols = np.where(comparevalues==False)
 
 for item in zip(rows,cols):
-    dfmay.iloc[item[0],item[1]] = ' {} --> {} '.format(dfmay.iloc[item[0], item[1]], dfjune.iloc[item[0],item[1]])
+    dffeb.iloc[item[0],item[1]] = ' {} --> {} '.format(dffeb.iloc[item[0], item[1]], dfmar.iloc[item[0],item[1]])
 
 
-dfmay.to_excel('files/output.xlsx', index=False,header=True)
+dffeb.to_excel('files/output.xlsx', index=False,header=True)
