@@ -20,7 +20,7 @@ wanted_columns = [i for i in range(10) if i not in unwanted_columns ]
 
 #print(comparevalues)
 
-compareOutput = filecmp.cmp('files/Feb_Report.xlsx', 'files/Mar_Report.xlsx', shallow=False)
+compareOutput = filecmp.cmp('files/Feb_Report.xlsx', 'files/Apr_Report.xlsx', shallow=False)
 print( compareOutput)
 
 #rows,cols = np.where(comparevalues==False)
